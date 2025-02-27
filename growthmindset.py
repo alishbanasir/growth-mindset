@@ -5,7 +5,6 @@ from io import BytesIO
 
 st.set_page_config(page_title="Data Sweeper", layout="wide")
 
-#custom css
 st.markdown(
     """
 <style>
@@ -18,11 +17,9 @@ color:white;
 unsafe_allow_html=True,
 )
 
-#title and description
 st.title("Data Sweeper ")
 st.write("A simple web app to clean and preprocess data")
 
-#file uploader
 uploaded_files = st.file_uploader("Choose a CSV file or Excel file", type=["csv", "xlsx"], accept_multiple_files=(True))
 
 if uploaded_files:
@@ -37,12 +34,9 @@ if uploaded_files:
             st.error(f"unsupported file type:  {file_ext}")
             continue
 
-        #file detail
         st.write("preview the head of the Dataframe")
         st.write(df.head())
 
-
-        #data cleaning options
         st.subheader("Data cleaning Options")
         if st.checkbox(f"clean data for {file.name}"):
             col1, col2 = st.columns(2)
@@ -61,12 +55,10 @@ if uploaded_files:
             columns = st.multiselect(f"choose columns for {file.name}", df.columns, default=df.columns)
             df = df[columns]
 
-            #data visualization
             st.subheader("Data Visualization")
             if st.checkbox(f"Visualize data for {file.name}"):
                 st.bar_chart(df.select_dtypes(include="number").iloc[:, :2])
 
-            #convrsion options
             st.subheader("Conversion Options")
             conversion_type =st.radio(f"Convert{file.name} to:", ["csv", "excel"], key=file.name)
             if st.button(f"convert{file.name}"):
@@ -88,4 +80,4 @@ if uploaded_files:
                     mime=mime_type
                     )
 
-st.success("all files processedn successfully")           
+st.success("All files processed")           
